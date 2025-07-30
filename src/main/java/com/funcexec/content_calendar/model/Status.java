@@ -1,4 +1,4 @@
-package com.funcexec.content_calendar;
+package com.funcexec.content_calendar.model;
 
 public enum Status {
   IDEA,

@@ -1,10 +1,12 @@
 package com.funcexec.content_calendar.repository;
 
+import com.funcexec.content_calendar.model.Content;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
-import com.funcexec.content_calendar.model.Content;
 
 @Repository
 public class ContentCollectionRepository {

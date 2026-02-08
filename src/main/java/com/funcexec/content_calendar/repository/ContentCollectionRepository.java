@@ -19,7 +19,24 @@ public class ContentCollectionRepository {
     return content;
   }
 
+  public boolean existsById(Integer id) {
+    return content.stream().filter(o -> o.id().equals(id)).count() == 1;
+  }
+
   public Optional<Content> findById(Integer id) {
     return content.stream().filter(c -> c.id().equals(id)).findFirst();
+  }
+
+  public void save(Content c) {
+    content.add(c);
+  }
+
+  public void modifyById(Content c, Integer id) {
+    content.removeIf(o -> o.id().equals(id));
+    content.add(c);
+  }
+
+  public void removeById(Integer id) {
+    content.removeIf(o -> o.id().equals(id));
   }
 }

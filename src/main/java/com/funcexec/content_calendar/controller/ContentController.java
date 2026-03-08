@@ -3,6 +3,8 @@ package com.funcexec.content_calendar.controller;
 import com.funcexec.content_calendar.model.Content;
 import com.funcexec.content_calendar.repository.ContentCollectionRepository;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -47,13 +49,13 @@ public class ContentController {
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("")
-  public void create(@RequestBody Content c) {
+  public void create(@Valid @RequestBody Content c) {
     repository.save(c);
   }
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @PostMapping("/{id}")
-  public void update(@RequestBody Content c, @PathVariable Integer id) {
+  public void update(@Valid @RequestBody Content c, @PathVariable Integer id) {
     if (!repository.existsById(id)) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }

@@ -1,12 +1,9 @@
 package com.funcexec.content_calendar.controller;
 
 import com.funcexec.content_calendar.model.Content;
-import com.funcexec.content_calendar.repository.ContentCollectionRepository;
-
-import jakarta.validation.Valid;
+import com.funcexec.content_calendar.repository.ContentJdbcTemplateRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,15 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/content")
 public class ContentController {
 
-  private final ContentCollectionRepository repository;
+  private final ContentJdbcTemplateRepository repository;
 
-  public ContentController(ContentCollectionRepository repository) {
+  public ContentController(ContentJdbcTemplateRepository repository) {
     this.repository = repository;
   }
 
@@ -36,38 +32,29 @@ public class ContentController {
 
   @GetMapping("")
   public List<Content> findAll() {
-    return repository.findAll();
+    return repository.getAllContent();
   }
 
   @GetMapping("/{id}")
-  public Optional<Content> find(@PathVariable Integer id) {
-    if (!repository.existsById(id)) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
-    return repository.findById(id);
+  public Content find(@PathVariable Integer id) {
+    return repository.getContent(id);
   }
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("")
-  public void create(@Valid @RequestBody Content c) {
-    repository.save(c);
+  public void create(@RequestBody Content c) {
+    repository.createContent(c);
   }
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @PostMapping("/{id}")
-  public void update(@Valid @RequestBody Content c, @PathVariable Integer id) {
-    if (!repository.existsById(id)) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
-    repository.modifyById(c, id);
+  public void update(@RequestBody Content c, @PathVariable Integer id) {
+    repository.updateContent(c, id);
   }
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{id}")
   public void delete(@PathVariable Integer id) {
-    if (!repository.existsById(id)) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
-    repository.removeById(id);
+    repository.deleteContent(id);
   }
 }

@@ -4,8 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.Id;
+
 public record Content(
-    Integer id,
+    @Id Integer id,
     @NotBlank String title,
     String desc,
     String status,
